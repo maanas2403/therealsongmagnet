@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Magnet</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('./bg3.jpg');
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+}
+
+header {
+    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h2{
+    text-align: center;
+    color: #fff;
+}
+#search-section {
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#song-input {
+    width: 97%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+#search-button {
+    
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: red;
+}
+#result{
+    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    text-align: center;
+}
+#results-section {
+    margin-top: 20px;
+}
+
+#results-list {
+    list-style: none;
+    padding: 0;
+}
+#results-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.audio-player-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Center text within the container */
+}
+/* .audio-player-container a {
+  display: block;
+  color: white; 
+  margin-top: 10px; 
+}*/
+.spotify-link {
+    display: block;
+  color: white;
+  text-decoration: none; /* Remove underline */
+  margin-top: 10px;
+}
+.spotify-link:hover {
+  color: red; /* Change the color when hovering over the link */
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Song Magnet</h1>
+    </header>
+    <main>
+        <section id="search-section">
+            <h2>Search for a Song</h2>
+          
+<input type="text" id="song-input" placeholder="Enter a song name" list="song-list">
+<datalist id="song-list">
+    <!-- The list of song names will be dynamically populated here -->
+</datalist>
+<div class="center-button"><button id="search-button">Search</button></div>
+        </section>
+        <section id="results-section">
+            <h2 id="result">Results</h2>
+            <ul id="results-list">
+                <!-- Results will be displayed here -->
+            </ul>
+        </section>
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const songInput = document.getElementById("song-input");
+    const searchButton = document.getElementById("search-button");
+    const resultsList = document.getElementById("results-list");
+
+    fetch("./spotify_df4.json")
+        .then((response) => response.json())
+        .then((data) => {
+            const songs = data;
+            let currentAudio = null;
+            const songNames = songs.map((song) => song.Song);
+
+            const songList = document.getElementById("song-list");
+            songNames.forEach((songName) => {
+                const option = document.createElement("option");
+                option.value = songName;
+                songList.appendChild(option);
+            });
+            const songList2 = document.getElementById("song-list");
+
+            songInput.addEventListener("input", function () {
+                const inputText = songInput.value.toLowerCase();
+                songList.innerHTML = ""; // Clear existing options
+
+                // Filter and add matching options
+                const matchingSongs = songNames.filter((songName) =>
+                    songName.toLowerCase().includes(inputText)
+                );
+                matchingSongs.forEach((songName) => {
+                    const option = document.createElement("option");
+                    option.value = songName;
+                    songList.appendChild(option);
+                });
+                
+            })
+            searchButton.addEventListener("click", function () {
+            const inputSongName = songInput.value.toLowerCase();
+                        resultsList.innerHTML = ""; 
+                        const inputtedSong = songs.find((song) =>
+                            song.Song.toLowerCase() === inputSongName
+                        );
+                        function stopCurrentAudio() {
+                            if (currentAudio) {
+                                currentAudio.pause();
+                                currentAudio.currentTime = 0; 
+                                currentAudio = null; 
+                            }
+                        }
+                        if (inputtedSong) {
+                            const inputtedPopularity = inputtedSong.Popularity;
+                            const inputtedDance=inputtedSong.Dance;
+                            const inputtedEnergy=inputtedSong.Energy;
+                            const inputtedAcoustic=inputtedSong.Acoustic;
+                            const inputtedInstrumental=inputtedSong.Instrumental;
+                            const inputtedHappy=inputtedSong.Happy;
+                            document.addEventListener("click", function () {
+                                stopCurrentAudio();
+                            });
+                
+                            /*const matchingSongs = songs.filter((song) =>
+                              
+                                Math.abs(song.Popularity - inputtedPopularity) <= 10
+                            );*/
+                            const matchingSongs2 = songs.filter((song) =>
+                             
+                                Math.abs(song.Dance - inputtedDance) <= 10
+                            );
+                            const matchingSongs3 = matchingSongs2.filter((song) =>
+                                
+                                Math.abs(song.Energy - inputtedEnergy) <= 10
+                            );
+                            const matchingSongs4 = matchingSongs3.filter((song) =>
+                               
+                                Math.abs(song.Acoustic - inputtedAcoustic) <= 10
+                            );
+                            const matchingSongs5 = matchingSongs4.filter((song) =>
+                               
+                                Math.abs(song.Instrumental - inputtedInstrumental) <= 10
+                            );
+                            const matchingSongs6 = matchingSongs5.filter((song) =>
+                                
+                                Math.abs(song.Happy - inputtedHappy) <= 10
+                            );
+                            matchingSongs6.sort((a, b) =>  (Math.abs(inputtedPopularity-a.Popularity) - Math.abs(inputtedPopularity-b.Popularity))+ (Math.abs(inputtedDance-a.Dance) - Math.abs(inputtedDance-b.Dance)) + (Math.abs(inputtedEnergy-a.Energy) - Math.abs(inputtedEnergy- b.Energy)) + (Math.abs(inputtedAcoustic-a.Acoustic) - Math.abs(inputtedAcoustic - b.Acoustic)) + (Math.abs(inputtedInstrumental-a.Instrumental) - Math.abs(inputtedInstrumental-b.Instrumental)) + (Math.abs(inputtedHappy-a.Happy) - Math.abs(inputtedHappy-b.Happy)));
+                            matchingSongs6.forEach((song) => {
+
+                                const image = document.createElement("img");
+                                image.src = song["Song Preview"];
+                                image.alt = `${song.Song} Image`;
+
+                                const listItem = document.createElement("li");
+                                const textContent = document.createElement("p");
+                                textContent.textContent = `${song.Song}`;
+                                
+                                const playerContainer = document.createElement("div");
+                                playerContainer.classList.add("audio-player-container");
+
+                                const audioPlayer = document.createElement("audio");
+                                audioPlayer.classList.add("audio-player");
+                                audioPlayer.controls = true; 
+                                audioPlayer.src = song["Spotify Track Img"];
+                                
+                                const trackId = song["Spotify Track Id"].trim();
+                                console.log("Track ID:", trackId);
+                                const spotifyLink = document.createElement("a");
+                                spotifyLink.href = "https://open.spotify.com/track/"+trackId ; // Spotify track URL
+                                spotifyLink.textContent = "\nListen on Spotify"
+                                spotifyLink.classList.add("spotify-link");
+
+
+                                audioPlayer.style.display = "block"; // Ensure the audio player is block-level
+                                spotifyLink.style.display = "block";
+
+                                playerContainer.appendChild(audioPlayer);
+                                playerContainer.appendChild(spotifyLink);
+
+                                listItem.appendChild(image);
+                                listItem.appendChild(textContent)
+                                listItem.appendChild(playerContainer);
+                                resultsList.appendChild(listItem);
+                                
+                            });
+                        } else {
+                            
+                            const errorMessage = document.createElement("li");
+                            errorMessage.textContent = "Song not found in the dataset";
+                            resultsList.appendChild(errorMessage);
+                        }
+                    });
+                })
+            
+           
+        .catch((error) => {
+            console.error("Error loading dataset:", error);
+        });
+});
+    </script>
+</body>
+</html>
