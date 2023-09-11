@@ -253,13 +253,14 @@ h2{
                                 listItem.appendChild(textContent)
                                 listItem.appendChild(playerContainer);
                                 resultsList.appendChild(listItem);
-                                
+                                 songInput.value = "";
                             });
                         } else {
                             
                             const errorMessage = document.createElement("li");
                             errorMessage.textContent = "Song not found in the dataset";
                             resultsList.appendChild(errorMessage);
+                             songInput.value = "";
                         }
                     });
                 })
