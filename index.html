@@ -10,8 +10,8 @@
     margin: 0;
     padding: 0;
     background-image: url('./bg4.png');
-    background-size: cover; 
-    background-repeat: no-repeat;
+    background-size: contain; 
+    background-repeat: repeat;
     background-attachment: fixed; 
 }
 
@@ -24,7 +24,7 @@ header {
 }
 
 main {
-    max-width: 800px;
+    
     margin: 0 auto;
     padding: 20px;
 }
@@ -33,9 +33,10 @@ h2{
     color: #fff;
 }
 #search-section {
+    max-width: 800px;
+    margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.75);
     padding: 20px;
-    border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 }
@@ -45,7 +46,6 @@ h2{
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 3px;
     border-radius: 20px;
 }
 .center-button {
@@ -74,18 +74,28 @@ h2{
     background-color: rgba(0, 0, 0, 0.75);
     
     color: white;
-    text-align: center;
+    /*text-align: center;*/
 }
 #results-section {
     margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: flex-start; /* Align items to the left */
+    text-align: center;
+    max-width: 100%;
 }
 
 #results-list {
     list-style: none;
     padding: 0;
-}
+    margin: 0;
+    display: flex; /* Display items as flex items */
+    justify-content: center;
+    flex-wrap: wrap; 
+}  
 #results-list li {
-    margin-bottom: 10px;
+    flex: 0 0 calc(15% - 20px);
+    margin:2px;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 20px;
@@ -93,6 +103,7 @@ h2{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.2s ease;
+    white-space: normal;
 }
 #results-list li:hover{
     transform:translateY(-10px);
