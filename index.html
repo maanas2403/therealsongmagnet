@@ -272,7 +272,7 @@ justify-content: center  ;
                                 spotifyLink.href = "https://open.spotify.com/track/"+trackId ; // Spotify track URL
                                 spotifyLink.textContent = "\nListen on Spotify"
                                 spotifyLink.classList.add("spotify-link");
-
+                                spotifyLink.target = "_blank";
 
                                 audioPlayer.style.display = "block"; // Ensure the audio player is block-level
                                 spotifyLink.style.display = "block";
