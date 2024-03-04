@@ -336,23 +336,23 @@ justify-content: center  ;
                             );*/
                             const matchingSongs2 = songs.filter((song) =>
                              
-                                Math.abs(song.Dance - inputtedDance) <= 10
+                                Math.abs(song.Dance - inputtedDance) <= 7
                             );
                             const matchingSongs3 = matchingSongs2.filter((song) =>
                                 
-                                Math.abs(song.Energy - inputtedEnergy) <= 10
+                                Math.abs(song.Energy - inputtedEnergy) <= 7
                             );
                             const matchingSongs4 = matchingSongs3.filter((song) =>
                                
-                                Math.abs(song.Acoustic - inputtedAcoustic) <= 10
+                                Math.abs(song.Acoustic - inputtedAcoustic) <= 7
                             );
                             const matchingSongs5 = matchingSongs4.filter((song) =>
                                
-                                Math.abs(song.Instrumental - inputtedInstrumental) <= 10
+                                Math.abs(song.Instrumental - inputtedInstrumental) <= 7
                             );
                             const matchingSongs6 = matchingSongs5.filter((song) =>
                                 
-                                Math.abs(song.Happy - inputtedHappy) <= 10
+                                Math.abs(song.Happy - inputtedHappy) <= 7
                             );
                             matchingSongs6.sort((a, b) =>  (Math.abs(inputtedPopularity-a.Popularity) - Math.abs(inputtedPopularity-b.Popularity))+ (Math.abs(inputtedDance-a.Dance) - Math.abs(inputtedDance-b.Dance)) + (Math.abs(inputtedEnergy-a.Energy) - Math.abs(inputtedEnergy- b.Energy)) + (Math.abs(inputtedAcoustic-a.Acoustic) - Math.abs(inputtedAcoustic - b.Acoustic)) + (Math.abs(inputtedInstrumental-a.Instrumental) - Math.abs(inputtedInstrumental-b.Instrumental)) + (Math.abs(inputtedHappy-a.Happy) - Math.abs(inputtedHappy-b.Happy)));
                             matchingSongs6.forEach((song) => {
@@ -383,7 +383,11 @@ justify-content: center  ;
 
                                 audioPlayer.style.display = "block"; // Ensure the audio player is block-level
                                 spotifyLink.style.display = "block";
-
+                                
+                                audioPlayer.addEventListener("play", function () {
+                                    stopCurrentAudio();
+                                    currentAudio = audioPlayer;
+                                });
                                 playerContainer.appendChild(audioPlayer);
                                 playerContainer.appendChild(spotifyLink);
 
