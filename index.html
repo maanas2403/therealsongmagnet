@@ -435,6 +435,13 @@ menuButton.addEventListener("click", function () {
     const topInstrumentalSongsLink = document.getElementById("top-instrumental-songs");
     const topSadSongsLink = document.getElementById("top-sad-songs");
     const Home = document.getElementById("home");
+    function stopCurrentAudio() {
+                            if (currentAudio) {
+                                currentAudio.pause();
+                                currentAudio.currentTime = 0; 
+                                currentAudio = null; 
+                            }
+                        }       
     function topSong(mainsongs){
         mainsongs.slice(0, 10).forEach((song) => {
                 const image = document.createElement("img");
@@ -463,7 +470,10 @@ menuButton.addEventListener("click", function () {
 
                                 audioPlayer.style.display = "block"; // Ensure the audio player is block-level
                                 spotifyLink.style.display = "block";
-                    
+                                audioPlayer.addEventListener("play", function () {
+                                    stopCurrentAudio();
+                                    currentAudio = audioPlayer;
+                                });
                                 playerContainer.appendChild(audioPlayer);
                                 playerContainer.appendChild(spotifyLink);
 
