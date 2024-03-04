@@ -463,10 +463,7 @@ menuButton.addEventListener("click", function () {
 
                                 audioPlayer.style.display = "block"; // Ensure the audio player is block-level
                                 spotifyLink.style.display = "block";
-                                audioPlayer.addEventListener("play", function () {
-                                    stopCurrentAudio();
-                                    currentAudio = audioPlayer;
-                                });
+                    
                                 playerContainer.appendChild(audioPlayer);
                                 playerContainer.appendChild(spotifyLink);
 
